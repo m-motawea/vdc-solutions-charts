@@ -11,10 +11,18 @@ spec:
   volumeMode: Filesystem
   accessModes:
     - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Recycle
-  storageClassName: ""
-  hostPath:
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: "local-storage"
+  local:
     path: {{ .Values.volume.hostPath }}
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - example-node
 
 ---
 apiVersion: v1
